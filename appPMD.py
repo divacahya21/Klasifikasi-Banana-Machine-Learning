@@ -7,10 +7,10 @@ from collections import Counter
 from Processing import crop_banana_yolo, ekstrak_fitur_lengkap, yolo_model
 
 # Load model dan tools
-model_rf = joblib.load("rf_model.pkl")
-model_svm = joblib.load("svm_model.pkl")
-scaler = joblib.load("scaler.pkl")
-encoder = joblib.load("encoder.pkl")
+model_rf = joblib.load("model/rf_model.pkl")
+model_svm = joblib.load("model/svm_model.pkl")
+scaler = joblib.load("model/scaler.pkl")
+encoder = joblib.load("model/encoder.pkl")
 
 # Konfigurasi halaman
 st.set_page_config(page_title="🍌 Banana Ripeness Classifier", layout="wide")
