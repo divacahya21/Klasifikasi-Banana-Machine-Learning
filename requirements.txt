@@ -1,0 +1,11 @@
+streamlit
+ultralytics
+scikit-learn
+pillow
+numpy
+opencv-python
+matplotlib
+seaborn
+joblib
+scipy
+scikit-image
