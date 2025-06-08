@@ -4,7 +4,7 @@ import numpy as np
 import joblib
 import matplotlib.pyplot as plt
 from collections import Counter
-from Processing import crop_banana_yolo, ekstrak_fitur_lengkap, yolo_model
+from processing import crop_banana_yolo, ekstrak_fitur_lengkap, yolo_model
 
 # Load model dan tools
 model_rf = joblib.load("model/rf_model.pkl")
