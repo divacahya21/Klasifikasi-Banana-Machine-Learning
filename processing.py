@@ -52,6 +52,15 @@ def fitur_statistik_hue(img_pil):
     kurt = kurtosis(hue_channel)
     return [mean_hue, std_hue, skewness, kurt]
 
+def fitur_area_gelap(img_pil):
+    hsv = cv2.cvtColor(np.array(img_pil.convert("RGB")), cv2.COLOR_RGB2HSV)
+    value_channel = hsv[:, :, 2]
+    total = value_channel.size
+    gelap = np.sum(value_channel < 50)
+    rasio = gelap / total
+    return [rasio]
+
+
 def ekstrak_fitur_lengkap(img_pil):
     """
     Gabungkan semua fitur: histogram hue, GLCM, dan statistik hue.
@@ -60,4 +69,5 @@ def ekstrak_fitur_lengkap(img_pil):
     gray = np.array(img_pil.convert("L"))
     glcm = fitur_glcm(gray)
     stat = fitur_statistik_hue(img_pil)
-    return np.concatenate([hist, glcm, stat])
+    gelap = fitur_area_gelap(img_pil)
+    return np.concatenate([hist, glcm, stat, gelap])
