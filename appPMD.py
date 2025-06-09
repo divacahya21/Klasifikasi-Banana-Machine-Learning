@@ -123,7 +123,7 @@ if uploaded_file is not None:
         ### ℹ️ Keterangan Tingkat Kematangan
         - 🟢 **Unripe**: Pisang berwarna hijau dominan, keras, belum siap konsumsi.
         - 🟡 **Ripe**: Pisang kuning cerah, tekstur lembut, siap dikonsumsi.
-        - 🔴 **Overripe**: Kulit hitam atau bercak gelap, rasa sangat manis, cocok untuk olahan.
+        - 🔴 **Overripe**: Kulit hitam atau bercak gelap, rasa sangat manis, cocok untuk olahan makanan.
         """)
 
     else:
@@ -132,6 +132,6 @@ if uploaded_file is not None:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center;'>
-    Dibuat dengan ❤️ oleh Kelompok 1 - Klasifikasi Kematangan Pisang
+    Dibuat dengan ❤️ oleh Kelompok 4 - Klasifikasi Kematangan Pisang
 </div>
 """, unsafe_allow_html=True)
