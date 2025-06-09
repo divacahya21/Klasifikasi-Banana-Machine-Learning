@@ -7,10 +7,10 @@ from collections import Counter
 from processing import crop_banana_yolo, ekstrak_fitur_lengkap, yolo_model
 
 # Load model dan tools
-model_rf = joblib.load("model PMD/model_rf.pkl")
-model_svm = joblib.load("model PMD/model_svm.pkl")
-scaler = joblib.load("model PMD/scaler.pkl")
-encoder = joblib.load("model PMD/label_encoder.pkl")
+model_rf = joblib.load("model/model_rf.pkl")
+model_svm = joblib.load("model/model_svm.pkl")
+scaler = joblib.load("model/scaler.pkl")
+encoder = joblib.load("model/label_encoder.pkl")
 
 # Konfigurasi halaman
 st.set_page_config(page_title="🍌 Banana Ripeness Classifier", layout="wide")
@@ -27,12 +27,19 @@ st.markdown("""
             text-align:center;
             color:gray;
         }
+        .block-container {
+            padding-top: 2rem;
+        }
     </style>
 """, unsafe_allow_html=True)
 
-st.markdown('<div class="title">🍌 Klasifikasi Tingkat Kematangan Pisang</div>', unsafe_allow_html=True)
-st.markdown('<div class="subtitle">Deteksi otomatis banyak pisang dan prediksi kematangan menggunakan YOLOv8 + ML</div>', unsafe_allow_html=True)
+# Gambar header di atas panel
+st.sidebar.image("gambar header.png", use_column_width=True)
 
+# Judul utama
+st.markdown('<div class="title">🍌 Klasifikasi Tingkat Kematangan Pisang</div>', unsafe_allow_html=True)
+
+# Sidebar pengaturan
 st.sidebar.header("⚙️ Pengaturan")
 model_option = st.sidebar.radio("Pilih Model Klasifikasi", ["Random Forest", "SVM"])
 
@@ -57,17 +64,10 @@ if uploaded_file is not None:
             fitur = ekstrak_fitur_lengkap(crop).reshape(1, -1)
             fitur_scaled = scaler.transform(fitur)
 
-            st.text(f"Fitur shape: {fitur.shape}")
-            st.text(f"Max Hue Bin Index: {np.argmax(fitur[0][:64])}")
-            st.text(f"Label classes: {encoder.classes_}")
-
-
             if model_option == "Random Forest":
                 pred = model_rf.predict(fitur_scaled)
-                prob = model_rf.predict_proba(fitur_scaled)[0]
             else:
                 pred = model_svm.predict(fitur_scaled)
-                prob = [0, 0, 0]  # SVM default (tanpa probabilitas)
 
             label = encoder.inverse_transform(pred)[0]
             pred_labels.append(label)
@@ -85,17 +85,6 @@ if uploaded_file is not None:
         ax1.set_title("Distribusi Kelas Kematangan")
         st.pyplot(fig1)
 
-        # Histogram confidence (jika pakai Random Forest)
-        if model_option == "Random Forest":
-            st.subheader("📊 Histogram Confidence Score (Random Forest)")
-            confidences = [max(model_rf.predict_proba(scaler.transform(ekstrak_fitur_lengkap(crop).reshape(1, -1)))[0]) for crop in crops]
-            fig2, ax2 = plt.subplots()
-            ax2.hist(confidences, bins=10, color='lightgreen', edgecolor='black')
-            ax2.set_title("Confidence Score per Pisang")
-            ax2.set_xlabel("Confidence")
-            ax2.set_ylabel("Jumlah")
-            st.pyplot(fig2)
-
         # Gambar dengan bounding box asli
         st.subheader("🖼️ Visualisasi Bounding Box")
         draw_image = image.copy()
@@ -111,6 +100,6 @@ if uploaded_file is not None:
 st.markdown("---")
 st.markdown("""
 <div style='text-align: center;'>
-    Dibuat dengan ❤️ oleh Kelompok 1 - Klasifikasi Kematangan Pisang
+    Dibuat dengan ❤️ oleh <b>Kelompok 1</b> - Klasifikasi Kematangan Pisang
 </div>
 """, unsafe_allow_html=True)
