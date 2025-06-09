@@ -30,13 +30,13 @@ st.set_page_config(page_title="🍌 Banana Ripeness Classifier", layout="wide")
 st.markdown("""
     <style>
         .title {
-            font-size:48px !important;
+            font-size:36px !important;
             font-weight:700;
             text-align:center;
-            margin-bottom:10px;
+            margin-bottom:6px;
         }
         .subtitle {
-            font-size:20px !important;
+            font-size:18px !important;
             text-align:center;
             color:gray;
         }
@@ -52,7 +52,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Gambar header
-st.sidebar.image("gambar header.jpg", use_column_width=True)
+st.sidebar.image("gambar header.jpg", use_container_width=True)
 
 st.markdown('<div class="title">🍌 Klasifikasi Tingkat Kematangan Pisang</div>', unsafe_allow_html=True)
 
@@ -63,7 +63,7 @@ uploaded_file = st.file_uploader("📤 Upload Gambar Pisang", type=["jpg", "jpeg
 
 if uploaded_file is not None:
     image = Image.open(uploaded_file).convert("RGB")
-    st.image(image, caption="Gambar yang Diupload", use_column_width=True)
+    st.image(image, caption="Gambar yang Diupload", use_container_width=True)
 
     with st.spinner("🔍 Mendeteksi pisang dan memproses gambar..."):
         hasil_deteksi = yolo_model.predict(source=image, conf=0.4, verbose=False)
@@ -102,10 +102,15 @@ if uploaded_file is not None:
         st.subheader("📈 Statistik Hasil Klasifikasi")
         counter = Counter(pred_labels)
         stat_labels, stat_counts = zip(*counter.items())
-        fig1, ax1 = plt.subplots()
-        ax1.bar(stat_labels, stat_counts, color='gold')
+        fig1, ax1 = plt.subplots(figsize=(6, 4))
+        colors = [
+            '#66bb6a' if label == 'unripe' else '#ffa726' if label == 'ripe' else '#ef5350'
+            for label in stat_labels
+        ]
+        bars = ax1.bar(stat_labels, stat_counts, color=colors)
         ax1.set_ylabel("Jumlah Pisang")
         ax1.set_title("Distribusi Kelas Kematangan")
+        ax1.bar_label(bars, fmt='%d', label_type='edge')
         st.pyplot(fig1)
 
         # Gambar dengan bounding box asli
@@ -116,7 +121,7 @@ if uploaded_file is not None:
             for box in hasil.boxes.xyxy:
                 x1, y1, x2, y2 = map(int, box)
                 draw.rectangle([x1, y1, x2, y2], outline="red", width=3)
-        st.image(draw_image, caption="Bounding Box Deteksi Pisang", use_column_width=True)
+        st.image(draw_image, caption="Bounding Box Deteksi Pisang", use_container_width=True)
 
         # Deskripsi Kematangan
         st.markdown("""
