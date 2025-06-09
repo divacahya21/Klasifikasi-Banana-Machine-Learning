@@ -57,6 +57,11 @@ if uploaded_file is not None:
             fitur = ekstrak_fitur_lengkap(crop).reshape(1, -1)
             fitur_scaled = scaler.transform(fitur)
 
+            st.text(f"Fitur shape: {fitur.shape}")
+            st.text(f"Max Hue Bin Index: {np.argmax(fitur[0][:64])}")
+            st.text(f"Label classes: {encoder.classes_}")
+
+
             if model_option == "Random Forest":
                 pred = model_rf.predict(fitur_scaled)
                 prob = model_rf.predict_proba(fitur_scaled)[0]
