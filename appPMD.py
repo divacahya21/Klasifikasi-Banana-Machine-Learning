@@ -34,7 +34,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Gambar header di atas panel
-st.sidebar.image("gambar header.png", use_column_width=True)
+st.sidebar.image("gambar header.jpg", use_column_width=True)
 
 # Judul utama
 st.markdown('<div class="title">🍌 Klasifikasi Tingkat Kematangan Pisang</div>', unsafe_allow_html=True)
